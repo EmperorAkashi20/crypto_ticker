@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:crypto_ticker/Models/chart_data_model.dart';
 import 'package:flutter/material.dart';
@@ -63,12 +64,11 @@ class AssetDataController extends GetxController {
               double.tryParse(
                   oneDayCoinHistoryResponseModel.value.data![i].priceUsd!)!,
               int.tryParse(
-                oneDayCoinHistoryResponseModel.value.data![i].date
-                    .toString()
-                    .substring(0, 3),
+                oneDayCoinHistoryResponseModel.value.data![i].time.toString(),
               )!,
             ),
           );
+          log(chartDataModel.first.year.toString());
         }
       } else {
         if (Get.isDialogOpen ?? false) Get.back();
