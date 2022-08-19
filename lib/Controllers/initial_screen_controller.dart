@@ -23,6 +23,8 @@ class InitialScreenController extends GetxController {
     super.onInit();
   }
 
+//!add a query param as "?limit=10" to get 10 assets
+
   getAssets() async {
     debugPrint(baseUrl + getCoinList);
     var data = await CoreService().getWithoutAuth(url: baseUrl + getCoinList);
