@@ -34,6 +34,7 @@ dependencies:
   logger:
   intl:
   responsive_framework:
+  http:
   cupertino_icons:
   connectivity:
   google_fonts:
