@@ -54,7 +54,8 @@ class InitialScreen extends StatelessWidget {
                                       .value
                                       .data![index]
                                       .changePercent24Hr!)!
-                                  .toStringAsFixed(4) +
+                                  .toStringAsFixed(2)
+                                  .replaceAll('-', '') +
                               "%",
                           icon: initialScreenController.allAssetsResponseModel
                                   .value.data![index].changePercent24Hr!
@@ -155,8 +156,12 @@ class AssetCard extends StatelessWidget {
                     children: [
                       Text(
                         id.length < 5
-                            ? id.toUpperCase()
-                            : id.split('-').join(' ').capitalize!,
+                            ? id.toUpperCase().replaceAll('Usd', 'USD')
+                            : id
+                                .split('-')
+                                .join(' ')
+                                .capitalize!
+                                .replaceAll('Usd', 'USD'),
                         style: TextStyles.assetNameTextStyle,
                       ),
                       SizedBox(

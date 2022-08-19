@@ -41,7 +41,7 @@ class InitialScreenController extends GetxController {
 
   Future<void> getCryptoPrice() async {
     var url = Uri.parse(baseUrl + getCoinList);
-    debugPrint(url.toString());
+    // debugPrint(url.toString());
     final response = await http.get(url);
     final data = json.decode(response.body);
     if (data == null) {
