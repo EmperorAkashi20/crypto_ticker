@@ -19,82 +19,80 @@ class InitialScreen extends StatelessWidget {
     double windowHeight = MediaQuery.of(context).size.height;
     double windowWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: Center(
-        child: StreamBuilder<AllAssetsResponseModel>(
-          stream: initialScreenController.streamController.stream,
-          builder: (context, snapdata) {
-            switch (snapdata.connectionState) {
-              case ConnectionState.waiting:
-                return const Center(
-                  child: CircularProgressIndicator(),
+      body: StreamBuilder<AllAssetsResponseModel>(
+        stream: initialScreenController.streamController.stream,
+        builder: (context, snapdata) {
+          switch (snapdata.connectionState) {
+            case ConnectionState.waiting:
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            default:
+              if (snapdata.hasError) {
+                return const Text('Please Wait....');
+              } else {
+                return ListView.builder(
+                  itemCount: initialScreenController
+                          .allAssetsResponseModel.value.data?.length ??
+                      0,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 5.0, vertical: 2),
+                      child: AssetCard(
+                        windowHeight: windowHeight,
+                        windowWidth: windowWidth,
+                        id: initialScreenController
+                            .allAssetsResponseModel.value.data![index].id
+                            .toString(),
+                        symbol: initialScreenController
+                            .allAssetsResponseModel.value.data![index].symbol
+                            .toString(),
+                        rank: initialScreenController
+                            .allAssetsResponseModel.value.data![index].rank
+                            .toString(),
+                        change24h: double.tryParse(initialScreenController
+                                    .allAssetsResponseModel
+                                    .value
+                                    .data![index]
+                                    .changePercent24Hr!)!
+                                .toStringAsFixed(2)
+                                .replaceAll('-', '') +
+                            "%",
+                        icon: initialScreenController.allAssetsResponseModel
+                                .value.data![index].changePercent24Hr!
+                                .toString()
+                                .contains('-')
+                            ? Icons.arrow_drop_down
+                            : Icons.arrow_drop_up,
+                        iconColor: initialScreenController
+                                .allAssetsResponseModel
+                                .value
+                                .data![index]
+                                .changePercent24Hr!
+                                .toString()
+                                .contains('-')
+                            ? Colors.red
+                            : Colors.green,
+                        price: double.tryParse(initialScreenController
+                                .allAssetsResponseModel
+                                .value
+                                .data![index]
+                                .priceUsd!)!
+                            .toStringAsFixed(2),
+                        marketCap: initialScreenController
+                            .allAssetsResponseModel
+                            .value
+                            .data![index]
+                            .marketCapUsd
+                            .toString(),
+                      ),
+                    );
+                  },
                 );
-              default:
-                if (snapdata.hasError) {
-                  return const Text('Please Wait....');
-                } else {
-                  return ListView.builder(
-                    itemCount: initialScreenController
-                            .allAssetsResponseModel.value.data?.length ??
-                        0,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 5.0, vertical: 2),
-                        child: AssetCard(
-                          windowHeight: windowHeight,
-                          windowWidth: windowWidth,
-                          id: initialScreenController
-                              .allAssetsResponseModel.value.data![index].id
-                              .toString(),
-                          symbol: initialScreenController
-                              .allAssetsResponseModel.value.data![index].symbol
-                              .toString(),
-                          rank: initialScreenController
-                              .allAssetsResponseModel.value.data![index].rank
-                              .toString(),
-                          change24h: double.tryParse(initialScreenController
-                                      .allAssetsResponseModel
-                                      .value
-                                      .data![index]
-                                      .changePercent24Hr!)!
-                                  .toStringAsFixed(2)
-                                  .replaceAll('-', '') +
-                              "%",
-                          icon: initialScreenController.allAssetsResponseModel
-                                  .value.data![index].changePercent24Hr!
-                                  .toString()
-                                  .contains('-')
-                              ? Icons.arrow_drop_down
-                              : Icons.arrow_drop_up,
-                          iconColor: initialScreenController
-                                  .allAssetsResponseModel
-                                  .value
-                                  .data![index]
-                                  .changePercent24Hr!
-                                  .toString()
-                                  .contains('-')
-                              ? Colors.red
-                              : Colors.green,
-                          price: double.tryParse(initialScreenController
-                                  .allAssetsResponseModel
-                                  .value
-                                  .data![index]
-                                  .priceUsd!)!
-                              .toStringAsFixed(2),
-                          marketCap: initialScreenController
-                              .allAssetsResponseModel
-                              .value
-                              .data![index]
-                              .marketCapUsd
-                              .toString(),
-                        ),
-                      );
-                    },
-                  );
-                }
-            }
-          },
-        ),
+              }
+          }
+        },
       ),
     );
   }
@@ -151,10 +149,16 @@ class AssetCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Image.network(
-                        'https://assets.coincap.io/assets/icons/${symbol.toString().toLowerCase()}@2x.png',
-                        height: windowHeight * 0.1,
-                        width: windowWidth * 0.1,
+                      Card(
+                        elevation: 3,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Image.network(
+                          'https://assets.coincap.io/assets/icons/${symbol.toString().toLowerCase()}@2x.png',
+                          // height: windowHeight * 0.1,
+                          // width: windowWidth * 0.1,
+                        ),
                       ),
                       SizedBox(
                         width: windowWidth * 0.03,

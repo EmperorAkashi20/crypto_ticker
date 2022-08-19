@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:crypto_ticker/Models/chart_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -14,19 +15,35 @@ class AssetDataController extends GetxController {
       OneDayCoinHistoryResponseModel().obs;
   final StreamController<OneDayCoinHistoryResponseModel> streamController =
       StreamController();
-  //!To Get the coin history api.coincap.io/v2/assets/bitcoin/history?interval=d1
+
+  String? assetHisoryUrl;
+  List<ChartDataModel> chartDataModel = [];
+
+  //*To Get the coin history api.coincap.io/v2/assets/bitcoin/history?interval=d1
 
   @override
   onInit() {
-    debugPrint(baseUrl + "assets/" + Get.arguments[0] + "/history?interval=d1");
+    debugPrint(
+        baseUrl + getCoinList + Get.arguments[0] + "/history?interval=d1");
+    assetHisoryUrl = baseUrl +
+        getCoinList +
+        "/" +
+        Get.arguments[0] +
+        "/history?interval=d1&API_KEY=" +
+        apiKey;
+    // Timer.periodic(const Duration(seconds: 1), (timer) {
+    //   getCoinHistory();
+    // });
+    getCoinHistory();
     super.onInit();
   }
 
-  Future<void> getCointHistory() async {
-    var url = Uri.parse(baseUrl + getCoinList + "?API_KEY=$apiKey");
+  Future<void> getCoinHistory() async {
+    var url = Uri.parse(assetHisoryUrl!);
     final response = await http.get(url);
     // debugPrint(response.statusCode.toString());
-    debugPrint(url.toString());
+    // debugPrint(url.toString());
+    debugPrint(response.body);
 
     final data = json.decode(response.body);
     if (data == null) {
@@ -38,6 +55,21 @@ class AssetDataController extends GetxController {
         oneDayCoinHistoryResponseModel.value =
             OneDayCoinHistoryResponseModel.fromJson(data);
         streamController.sink.add(oneDayCoinHistoryResponseModel.value);
+        for (int i = 0;
+            i < oneDayCoinHistoryResponseModel.value.data!.length;
+            i++) {
+          chartDataModel.add(
+            ChartDataModel(
+              double.tryParse(
+                  oneDayCoinHistoryResponseModel.value.data![i].priceUsd!)!,
+              int.tryParse(
+                oneDayCoinHistoryResponseModel.value.data![i].date
+                    .toString()
+                    .substring(0, 3),
+              )!,
+            ),
+          );
+        }
       } else {
         if (Get.isDialogOpen ?? false) Get.back();
         Get.snackbar(StringUtils.hasErrorMessage, StringUtils.hasErrorTitle);

@@ -41,6 +41,8 @@ dependencies:
   hive:
   hive_flutter:
   device_info:
+  # fl_chart:
+  syncfusion_flutter_charts: ^20.2.44
 
 dev_dependencies:
   flutter_test:
