@@ -1,4 +1,6 @@
 import 'package:crypto_ticker/Controllers/initial_screen_controller.dart';
+import 'package:crypto_ticker/DeviceManager/screen_constants.dart';
+import 'package:crypto_ticker/DeviceManager/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -63,16 +65,41 @@ class AssetCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       child: Container(
-        height: windowHeight * 0.2,
-        width: windowWidth * 0.43,
+        height: windowHeight * 0.1,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
         ),
-        child: Column(
-          children: [
-            Text(id),
-            Text(symbol),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Image.network(
+                'https://assets.coincap.io/assets/icons/${symbol.toString().toLowerCase()}@2x.png',
+                height: windowHeight * 0.1,
+                width: windowWidth * 0.1,
+              ),
+              SizedBox(
+                width: windowWidth * 0.03,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    id.length < 5
+                        ? id.toUpperCase()
+                        : id.split('-').join(' ').capitalize!,
+                    style: TextStyles.assetNameTextStyle,
+                  ),
+                  Text(
+                    symbol,
+                    style: TextStyles.symbolTextStyle,
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
