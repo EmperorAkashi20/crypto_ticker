@@ -130,7 +130,14 @@ class AssetCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: GestureDetector(
         onTap: () {
-          Get.toNamed(assetDataHistory, arguments: [id, price]);
+          Get.toNamed(
+            assetDataHistory,
+            arguments: [
+              id,
+              price,
+              'https://assets.coincap.io/assets/icons/${symbol.toString().toLowerCase()}@2x.png',
+            ],
+          );
         },
         child: Card(
           elevation: 1,
