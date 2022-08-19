@@ -10,14 +10,26 @@ class TextStyles {
       );
 
   static TextStyle get assetNameTextStyle => TextStyle(
-        fontSize: FontSize.s20,
+        fontSize: FontSize.s18,
         fontWeight: FontWeight.bold,
         color: Colors.black,
       );
 
   static TextStyle get symbolTextStyle => TextStyle(
-        fontSize: FontSize.s16,
+        fontSize: FontSize.s14,
         fontWeight: FontWeight.w400,
         color: Colors.black,
+      );
+
+  static TextStyle get priceLabelTextStyle => TextStyle(
+        fontSize: FontSize.s17,
+        fontWeight: FontWeight.bold,
+        color: Colors.black,
+      );
+
+  static TextStyle get marketCapTextStyle => TextStyle(
+        fontSize: FontSize.s15,
+        fontWeight: FontWeight.w500,
+        color: Colors.grey.shade600,
       );
 }

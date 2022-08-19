@@ -23,8 +23,7 @@ class InitialScreen extends StatelessWidget {
               0,
           itemBuilder: (context, index) {
             return Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 2),
+              padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 2),
               child: AssetCard(
                 windowHeight: windowHeight,
                 windowWidth: windowWidth,
@@ -33,6 +32,34 @@ class InitialScreen extends StatelessWidget {
                     .toString(),
                 symbol: initialScreenController
                     .allAssetsResponseModel.value.data![index].symbol
+                    .toString(),
+                rank: initialScreenController
+                    .allAssetsResponseModel.value.data![index].rank
+                    .toString(),
+                change24h: double.tryParse(initialScreenController
+                            .allAssetsResponseModel
+                            .value
+                            .data![index]
+                            .changePercent24Hr!)!
+                        .toStringAsFixed(4) +
+                    "%",
+                icon: initialScreenController.allAssetsResponseModel.value
+                        .data![index].changePercent24Hr!
+                        .toString()
+                        .contains('-')
+                    ? Icons.arrow_drop_down
+                    : Icons.arrow_drop_up,
+                iconColor: initialScreenController.allAssetsResponseModel.value
+                        .data![index].changePercent24Hr!
+                        .toString()
+                        .contains('-')
+                    ? Colors.red
+                    : Colors.green,
+                price: double.tryParse(initialScreenController
+                        .allAssetsResponseModel.value.data![index].priceUsd!)!
+                    .toStringAsFixed(2),
+                marketCap: initialScreenController
+                    .allAssetsResponseModel.value.data![index].marketCapUsd
                     .toString(),
               ),
             );
@@ -48,6 +75,12 @@ class AssetCard extends StatelessWidget {
   final double windowWidth;
   final String id;
   final String symbol;
+  final String price;
+  final String marketCap;
+  final String rank;
+  final String change24h;
+  final IconData icon;
+  final Color iconColor;
 
   const AssetCard({
     Key? key,
@@ -55,48 +88,127 @@ class AssetCard extends StatelessWidget {
     required this.windowWidth,
     required this.id,
     required this.symbol,
+    required this.price,
+    required this.marketCap,
+    required this.rank,
+    required this.change24h,
+    required this.icon,
+    required this.iconColor,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 6,
+      elevation: 1,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
       child: Container(
-        height: windowHeight * 0.1,
+        height: windowHeight * 0.13,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Image.network(
-                'https://assets.coincap.io/assets/icons/${symbol.toString().toLowerCase()}@2x.png',
-                height: windowHeight * 0.1,
-                width: windowWidth * 0.1,
+              Row(
+                children: [
+                  Image.network(
+                    'https://assets.coincap.io/assets/icons/${symbol.toString().toLowerCase()}@2x.png',
+                    height: windowHeight * 0.1,
+                    width: windowWidth * 0.1,
+                  ),
+                  SizedBox(
+                    width: windowWidth * 0.03,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        id.length < 5
+                            ? id.toUpperCase()
+                            : id.split('-').join(' ').capitalize!,
+                        style: TextStyles.assetNameTextStyle,
+                      ),
+                      SizedBox(
+                        height: windowHeight * 0.01,
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            width: windowWidth * 0.05,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Text(
+                                  rank,
+                                  style: TextStyles.symbolTextStyle,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: windowWidth * 0.01,
+                          ),
+                          Text(
+                            symbol,
+                            style: TextStyles.symbolTextStyle,
+                          ),
+                          SizedBox(
+                            width: windowWidth * 0.01,
+                          ),
+                          Icon(
+                            icon,
+                            color: iconColor,
+                          ),
+                          Text(
+                            change24h,
+                            style: TextStyles.symbolTextStyle,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
               ),
               SizedBox(
                 width: windowWidth * 0.03,
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    id.length < 5
-                        ? id.toUpperCase()
-                        : id.split('-').join(' ').capitalize!,
-                    style: TextStyles.assetNameTextStyle,
-                  ),
-                  Text(
-                    symbol,
-                    style: TextStyles.symbolTextStyle,
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 15.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "US\$" +
+                          price.toString().replaceAllMapped(
+                              RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                              (Match m) => '${m[1]},'),
+                      style: TextStyles.priceLabelTextStyle,
+                    ),
+                    SizedBox(
+                      height: windowHeight * 0.01,
+                    ),
+                    Text(
+                      "mCap US\$" +
+                          (double.tryParse(marketCap)! / 1000000000)
+                              .toStringAsFixed(2)
+                              .replaceAllMapped(
+                                  RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                                  (Match m) => '${m[1]},') +
+                          "Bn",
+                      style: TextStyles.marketCapTextStyle,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
