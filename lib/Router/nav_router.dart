@@ -7,7 +7,7 @@ class NavRouter {
   static final generateRoute = [
     GetPage(
       name: initalScreen,
-      page: () => const InitialScreen(),
+      page: () => InitialScreen(),
     ),
   ];
 }
