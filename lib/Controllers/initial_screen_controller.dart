@@ -1,14 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:crypto_ticker/Models/ResponseModels/all_assets_response_model.dart';
 import 'package:crypto_ticker/Services/url.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-
-import '../Services/core_services.dart';
 
 class InitialScreenController extends GetxController {
   Rx<AllAssetsResponseModel> allAssetsResponseModel =
@@ -40,9 +37,11 @@ class InitialScreenController extends GetxController {
   // }
 
   Future<void> getCryptoPrice() async {
-    var url = Uri.parse(baseUrl + getCoinList);
-    // debugPrint(url.toString());
+    var url = Uri.parse(baseUrl + getCoinList + "?API_KEY=$apiKey");
     final response = await http.get(url);
+    // debugPrint(response.statusCode.toString());
+    debugPrint(url.toString());
+
     final data = json.decode(response.body);
     if (data == null) {
       if (Get.isDialogOpen ?? false) Get.back();
