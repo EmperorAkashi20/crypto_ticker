@@ -2,10 +2,13 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:crypto_ticker/Models/ResponseModels/all_assets_response_model.dart';
+import 'package:crypto_ticker/Services/string_utils.dart';
 import 'package:crypto_ticker/Services/url.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+
+import '../Router/route_constants.dart';
 
 class InitialScreenController extends GetxController {
   Rx<AllAssetsResponseModel> allAssetsResponseModel =
@@ -51,6 +54,9 @@ class InitialScreenController extends GetxController {
         if (Get.isDialogOpen ?? false) Get.back();
         allAssetsResponseModel.value = AllAssetsResponseModel.fromJson(data);
         streamController.sink.add(allAssetsResponseModel.value);
+      } else {
+        if (Get.isDialogOpen ?? false) Get.back();
+        Get.snackbar(StringUtils.hasErrorMessage, StringUtils.hasErrorTitle);
       }
     }
   }
