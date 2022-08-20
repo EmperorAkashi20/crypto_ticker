@@ -9,5 +9,5 @@ class StringUtils {
   //sucess
   static const String success = "Successful";
   static const String error = "Error";
-  static const String attention = "Attention";
+  static const String attention = "Attention!";
 }

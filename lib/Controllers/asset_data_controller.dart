@@ -97,7 +97,7 @@ class AssetDataController extends GetxController {
     var url = Uri.parse(assetDataUrl!);
     final response = await http.get(url);
     // debugPrint(response.statusCode.toString());
-    debugPrint(url.toString());
+    // debugPrint(url.toString());
 
     final data = json.decode(response.body);
     if (data == null) {

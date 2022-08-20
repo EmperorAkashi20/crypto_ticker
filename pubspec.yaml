@@ -36,7 +36,10 @@ dependencies:
   responsive_framework:
   http:
   cupertino_icons:
-  connectivity:
+  connectivity_plus:
+  internet_connection_checker:
+  sqflite:
+  # data_connection_checker:
   google_fonts:
   hive:
   hive_flutter:
