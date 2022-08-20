@@ -8,7 +8,9 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../Models/ResponseModels/one_day_coint_history_response_model.dart';
+import '../Widgets/asset_data_row.dart';
 import '../Widgets/default_appbar.dart';
+import '../Widgets/interval_container.dart';
 
 class AssetDataView extends StatelessWidget {
   final AssetDataController assetDataController =
@@ -330,86 +332,6 @@ class AssetDataView extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class DataRowForAssets extends StatelessWidget {
-  final String dataLabel;
-  final String value;
-  const DataRowForAssets({
-    required this.dataLabel,
-    required this.value,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              dataLabel,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-                fontSize: FontSize.s18,
-              ),
-            ),
-            Text(
-              value,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.blueGrey.shade600,
-                fontSize: FontSize.s18,
-              ),
-            ),
-          ],
-        ),
-        Divider(
-          color: Colors.grey.shade300,
-          thickness: 0.5,
-        ),
-      ],
-    );
-  }
-}
-
-class IntervalContainer extends StatelessWidget {
-  final double windowHeight;
-  final double windowWidth;
-  final String interval;
-  final Widget button;
-
-  const IntervalContainer({
-    Key? key,
-    required this.windowHeight,
-    required this.windowWidth,
-    required this.interval,
-    required this.button,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: GestureDetector(
-        child: Container(
-          height: windowHeight * 0.06,
-          width: windowWidth * 0.2,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            border: Border.all(
-              color: Colors.black,
-              width: 1,
-            ),
-          ),
-          child: Center(
-            child: button,
-          ),
-        ),
       ),
     );
   }
