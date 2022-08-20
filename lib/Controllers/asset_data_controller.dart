@@ -68,9 +68,8 @@ class AssetDataController extends GetxController {
             ChartDataModel(
               double.tryParse(
                   oneDayCoinHistoryResponseModel.value.data![i].priceUsd!)!,
-              int.tryParse(
-                oneDayCoinHistoryResponseModel.value.data![i].time.toString(),
-              )!,
+              DateTime.fromMicrosecondsSinceEpoch(
+                  oneDayCoinHistoryResponseModel.value.data![i].time! * 1000),
             ),
           );
           // log(chartDataModel.first.year.toString());

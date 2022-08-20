@@ -1,6 +1,6 @@
 class ChartDataModel {
   final double value;
-  final int year;
+  final dynamic date;
 
-  ChartDataModel(this.value, this.year);
+  ChartDataModel(this.value, this.date);
 }
