@@ -21,6 +21,7 @@ class InitialScreenController extends GetxController {
   }
 
 //!add a query param as "?limit=10" to get 10 assets
+//!add a query param as "?search=b" to get all assets starting with "B"
 
   // getAssets() async {
   //   debugPrint(baseUrl + getCoinList);

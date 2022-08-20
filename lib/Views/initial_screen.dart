@@ -2,6 +2,7 @@ import 'package:crypto_ticker/Controllers/initial_screen_controller.dart';
 import 'package:crypto_ticker/DeviceManager/text_styles.dart';
 import 'package:crypto_ticker/Models/ResponseModels/all_assets_response_model.dart';
 import 'package:crypto_ticker/Router/route_constants.dart';
+import 'package:crypto_ticker/Widgets/default_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -19,6 +20,14 @@ class InitialScreen extends StatelessWidget {
     double windowHeight = MediaQuery.of(context).size.height;
     double windowWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(windowHeight * 0.08),
+        child: DefaultAppBar(
+          windowHeight: windowHeight,
+          windowWidth: windowWidth,
+          title: const Text('Crypto Ticker'),
+        ),
+      ),
       body: StreamBuilder<AllAssetsResponseModel>(
         stream: initialScreenController.streamController.stream,
         builder: (context, snapdata) {
