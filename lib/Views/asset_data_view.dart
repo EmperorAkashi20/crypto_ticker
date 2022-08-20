@@ -1,19 +1,17 @@
-import 'dart:developer';
-
 import 'package:crypto_ticker/Controllers/asset_data_controller.dart';
-import 'package:crypto_ticker/DeviceManager/screen_constants.dart';
 import 'package:crypto_ticker/Models/chart_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import '../Controllers/initial_screen_controller.dart';
 import '../Models/ResponseModels/one_day_coint_history_response_model.dart';
 
 class AssetDataView extends StatelessWidget {
   final AssetDataController assetDataController =
       Get.put(AssetDataController());
-  // final InitialScreenController initialScreenController = Get.find();
+  final InitialScreenController initialScreenController = Get.find();
   AssetDataView({Key? key}) : super(key: key);
 //Graph for coin history
   @override
@@ -21,37 +19,61 @@ class AssetDataView extends StatelessWidget {
     double windowWidth = MediaQuery.of(context).size.width;
     double windowHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        centerTitle: false,
-        title: Row(
-          children: [
-            Image.network(
-              Get.arguments[2],
-              height: windowHeight * 0.055,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(windowHeight * 0.08),
+        child: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          flexibleSpace: Container(
+            height: windowHeight * 0.3,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.blue,
+                  Colors.red,
+                ],
+              ),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(50),
+              ),
             ),
-            SizedBox(
-              width: windowWidth * 0.02,
-            ),
-            Text(
-              Get.arguments[0].toString().length < 5
-                  ? Get.arguments[0]
-                      .toString()
-                      .toUpperCase()
-                      .replaceAll('Usd', 'USD')
-                  : Get.arguments[0]
-                      .split('-')
-                      .join(' ')
-                      .toString()
-                      .capitalize!
-                      .replaceAll('Usd', 'USD'),
-            ),
-          ],
+          ),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.network(
+                Get.arguments[2],
+                height: windowHeight * 0.055,
+              ),
+              SizedBox(
+                width: windowWidth * 0.02,
+              ),
+              Text(
+                Get.arguments[0].toString().length < 5
+                    ? Get.arguments[0]
+                        .toString()
+                        .toUpperCase()
+                        .replaceAll('Usd', 'USD')
+                    : Get.arguments[0]
+                        .split('-')
+                        .join(' ')
+                        .toString()
+                        .capitalize!
+                        .replaceAll('Usd', 'USD'),
+              ),
+            ],
+          ),
         ),
       ),
       body: Column(
         children: [
+          SizedBox(
+            height: windowHeight * 0.03,
+          ),
           Container(
             height: Get.height * 0.5,
             width: double.infinity,
@@ -76,10 +98,22 @@ class AssetDataView extends StatelessWidget {
                       return SfCartesianChart(
                         plotAreaBorderWidth: 0,
                         primaryXAxis: DateTimeAxis(
+                          axisLine: const AxisLine(
+                            color: Colors.transparent,
+                            width: 2,
+                          ),
                           isVisible: true,
                           majorGridLines: const MajorGridLines(width: 0),
+                          labelStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: windowHeight * 0.009,
+                          ),
                         ),
                         primaryYAxis: NumericAxis(
+                          axisLine: const AxisLine(
+                            color: Colors.transparent,
+                            width: 2,
+                          ),
                           numberFormat: NumberFormat.simpleCurrency(),
                           isVisible: true,
                           labelStyle: TextStyle(

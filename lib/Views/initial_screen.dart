@@ -136,6 +136,7 @@ class AssetCard extends StatelessWidget {
               id,
               price,
               'https://assets.coincap.io/assets/icons/${symbol.toString().toLowerCase()}@2x.png',
+              symbol,
             ],
           );
         },
