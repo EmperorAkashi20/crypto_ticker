@@ -1,31 +1,48 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+
+import '../Services/string_utils.dart';
 
 class ConnectionCheck {
-  final Connectivity _connectivity = Connectivity();
+  late StreamSubscription connection;
+  var isConnected = false;
+  bool messageShown = false;
+  RxString connectionVar = "".obs;
 
-  Future<bool> initConnectivity() async {
-    ConnectivityResult? result;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      result = await _connectivity.checkConnectivity();
-    } on PlatformException catch (e) {
-      debugPrint(e.toString());
-    }
-    return await _updateConnectionStatus(result!);
-  }
+  getConnectivity() => connection = Connectivity()
+          .onConnectivityChanged
+          .listen((ConnectivityResult result) async {
+        isConnected = await InternetConnectionChecker().hasConnection;
 
-  Future<bool> _updateConnectionStatus(ConnectivityResult result) async {
-    switch (result) {
-      case ConnectivityResult.wifi:
-        return true;
-      case ConnectivityResult.mobile:
-        return true;
-      case ConnectivityResult.none:
-        return false;
-      default:
-        return false;
-    }
-  }
+        if (isConnected == true) {
+          log('Connected value::::');
+          log('Connected');
+          connectionVar.value = 'Connected';
+        } else {
+          log('Connected value::::');
+
+          log('Not connected');
+          connectionVar.value = 'Not Connected';
+
+          if (messageShown == false) {
+            Get.snackbar(
+              StringUtils.attention,
+              StringUtils.connectionErrorMessage,
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: Colors.white,
+              colorText: Colors.black,
+              snackStyle: SnackStyle.FLOATING,
+              duration: const Duration(seconds: 3),
+            );
+          }
+          messageShown = true;
+        }
+      });
 }

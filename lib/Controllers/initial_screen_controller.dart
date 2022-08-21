@@ -18,15 +18,16 @@ class InitialScreenController extends GetxController {
       AllAssetsResponseModel().obs;
   final StreamController<AllAssetsResponseModel> streamController =
       StreamController();
+
   late StreamSubscription connection;
-  bool isConnected = false;
+  RxBool isConnected = false.obs;
   bool messageShown = false;
 
   getConnectivity() => connection = Connectivity()
           .onConnectivityChanged
           .listen((ConnectivityResult result) async {
-        isConnected = await InternetConnectionChecker().hasConnection;
-        if (isConnected == true) {
+        isConnected.value = await InternetConnectionChecker().hasConnection;
+        if (isConnected.value == true) {
           log('Connected');
         } else {
           log('Not connected');
@@ -35,8 +36,8 @@ class InitialScreenController extends GetxController {
               StringUtils.attention,
               StringUtils.connectionErrorMessage,
               snackPosition: SnackPosition.BOTTOM,
-              backgroundColor: Colors.white,
-              colorText: Colors.black,
+              backgroundColor: Colors.red,
+              colorText: Colors.white,
               snackStyle: SnackStyle.FLOATING,
               duration: const Duration(seconds: 3),
             );
@@ -44,12 +45,10 @@ class InitialScreenController extends GetxController {
           messageShown = true;
         }
       });
-
   @override
   onInit() {
     getConnectivity();
-    log(isConnected.toString());
-    if (isConnected == false) {
+    if (isConnected.value == false) {
       Timer.periodic(const Duration(seconds: 1), (timer) {
         getCryptoPrice();
       });
@@ -62,25 +61,10 @@ class InitialScreenController extends GetxController {
   @override
   dispose() {
     streamController.close();
-    connection.cancel();
     super.dispose();
   }
 //!add a query param as "?limit=10" to get 10 assets
 //!add a query param as "?search=b" to get all assets starting with "B"
-
-  // getAssets() async {
-  //   debugPrint(baseUrl + getCoinList);
-  //   var data = await CoreService().getWithoutAuth(url: baseUrl + getCoinList);
-  //   if (data == null) {
-  //     if (Get.isDialogOpen ?? false) Get.back();
-  //     return;
-  //   } else {
-  //     if (data['data'] != null) {
-  //       if (Get.isDialogOpen ?? false) Get.back();
-  //       allAssetsResponseModel.value = AllAssetsResponseModel.fromJson(data);
-  //     }
-  //   }
-  // }
 
   Future<void> getCryptoPrice() async {
     var url = Uri.parse(baseUrl + getCoinList + "?API_KEY=$apiKey");
@@ -89,10 +73,11 @@ class InitialScreenController extends GetxController {
     String fileName = "pathString.json";
     var dir = await getTemporaryDirectory();
     File file = File(dir.path + '/' + fileName);
-    if (isConnected == false) {
-      debugPrint(file.existsSync().toString());
+    if (isConnected.value == false) {
       if (file.existsSync()) {
+        log('message');
         log('Reading from cache');
+        log('message');
         final cacheData = file.readAsStringSync();
         final data = json.decode(cacheData);
         allAssetsResponseModel.value = AllAssetsResponseModel.fromJson(data);
@@ -102,11 +87,11 @@ class InitialScreenController extends GetxController {
       }
     } else {
       log('Reading from server');
-      // Get.snackbar('title', 'server');
-
       final response = await http.get(url);
       file.writeAsStringSync(response.body, flush: true, mode: FileMode.write);
       final data = json.decode(response.body);
+      // log(response.statusCode.toString());
+      // log(response.body);
       if (data == null) {
         if (Get.isDialogOpen ?? false) Get.back();
         return;
