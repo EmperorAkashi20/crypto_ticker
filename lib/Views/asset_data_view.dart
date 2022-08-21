@@ -145,7 +145,7 @@ class AssetDataView extends StatelessWidget {
                   interval: "D1",
                   button: TextButton(
                     onPressed: () {
-                      assetDataController.interval.value = 'd1';
+                      assetDataController.interval = 'd1';
                     },
                     child: const Text('D1'),
                   ),
@@ -156,7 +156,7 @@ class AssetDataView extends StatelessWidget {
                   interval: "M5",
                   button: TextButton(
                     onPressed: () {
-                      assetDataController.interval.value = 'm5';
+                      assetDataController.interval = 'm5';
                     },
                     child: const Text('M5'),
                   ),
@@ -167,7 +167,7 @@ class AssetDataView extends StatelessWidget {
                   interval: "M15",
                   button: TextButton(
                     onPressed: () {
-                      assetDataController.interval.value = 'm15';
+                      assetDataController.interval = 'm15';
                     },
                     child: const Text('M15'),
                   ),
@@ -178,7 +178,7 @@ class AssetDataView extends StatelessWidget {
                   interval: "M30",
                   button: TextButton(
                     onPressed: () {
-                      assetDataController.interval.value = 'm30';
+                      assetDataController.interval = 'm30';
                     },
                     child: const Text('M30'),
                   ),
@@ -189,7 +189,7 @@ class AssetDataView extends StatelessWidget {
                   interval: "H12",
                   button: TextButton(
                     onPressed: () {
-                      assetDataController.interval.value = 'h12';
+                      assetDataController.interval = 'h12';
                     },
                     child: const Text('H12'),
                   ),
@@ -319,13 +319,13 @@ class AssetDataView extends StatelessWidget {
                             ),
                             DataRowForAssets(
                               dataLabel: "Change% (24h)",
-                              value: "\$" +
-                                  (double.tryParse(
+                              value: (double.tryParse(
                                     assetDataController.assetDataResponseModel
                                         .value.data!.changePercent24Hr
                                         .toString(),
                                   )!
-                                      .toStringAsFixed(2)),
+                                      .toStringAsFixed(2)) +
+                                  "%",
                             ),
                           ],
                         );

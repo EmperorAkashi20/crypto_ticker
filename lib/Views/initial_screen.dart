@@ -1,12 +1,9 @@
 import 'package:crypto_ticker/Controllers/initial_screen_controller.dart';
-import 'package:crypto_ticker/DeviceManager/text_styles.dart';
 import 'package:crypto_ticker/Models/ResponseModels/all_assets_response_model.dart';
-import 'package:crypto_ticker/Router/route_constants.dart';
 import 'package:crypto_ticker/Widgets/default_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../DeviceManager/screen_constants.dart';
 import '../Widgets/asset_card.dart';
 
 class InitialScreen extends StatelessWidget {

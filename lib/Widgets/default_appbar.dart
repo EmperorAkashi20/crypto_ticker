@@ -4,19 +4,22 @@ class DefaultAppBar extends StatelessWidget {
   final double windowHeight;
   final double windowWidth;
   final Widget title;
+  final List<Widget>? actions;
 
-  const DefaultAppBar({
-    Key? key,
-    required this.windowHeight,
-    required this.windowWidth,
-    required this.title,
-  }) : super(key: key);
+  const DefaultAppBar(
+      {Key? key,
+      required this.windowHeight,
+      required this.windowWidth,
+      required this.title,
+      this.actions})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
+      actions: actions,
       automaticallyImplyLeading: false,
       centerTitle: true,
       flexibleSpace: Container(

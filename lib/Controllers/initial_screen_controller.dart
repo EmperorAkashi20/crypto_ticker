@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -28,9 +27,9 @@ class InitialScreenController extends GetxController {
           .listen((ConnectivityResult result) async {
         isConnected.value = await InternetConnectionChecker().hasConnection;
         if (isConnected.value == true) {
-          log('Connected');
+          // log('Connected');
         } else {
-          log('Not connected');
+          // log('Not connected');
           if (messageShown == false) {
             Get.snackbar(
               StringUtils.attention,
@@ -53,7 +52,7 @@ class InitialScreenController extends GetxController {
         getCryptoPrice();
       });
     } else {
-      log('message111111');
+      // log('message111111');
     }
     super.onInit();
   }
@@ -75,9 +74,9 @@ class InitialScreenController extends GetxController {
     File file = File(dir.path + '/' + fileName);
     if (isConnected.value == false) {
       if (file.existsSync()) {
-        log('message');
-        log('Reading from cache');
-        log('message');
+        // log('message');
+        // log('Reading from cache');
+        // log('message');
         final cacheData = file.readAsStringSync();
         final data = json.decode(cacheData);
         allAssetsResponseModel.value = AllAssetsResponseModel.fromJson(data);
@@ -86,7 +85,7 @@ class InitialScreenController extends GetxController {
         return data;
       }
     } else {
-      log('Reading from server');
+      // log('Reading from server');
       final response = await http.get(url);
       file.writeAsStringSync(response.body, flush: true, mode: FileMode.write);
       final data = json.decode(response.body);

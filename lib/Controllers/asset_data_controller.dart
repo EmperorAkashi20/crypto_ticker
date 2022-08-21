@@ -6,7 +6,6 @@ import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:crypto_ticker/Models/ResponseModels/asset_data_response_model.dart';
 import 'package:crypto_ticker/Models/chart_data_model.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -36,9 +35,9 @@ class AssetDataController extends GetxController {
           .listen((ConnectivityResult result) async {
         isConnected.value = await InternetConnectionChecker().hasConnection;
         if (isConnected.value == true) {
-          log('Connected');
+          // log('Connected');
         } else {
-          log('Not connected');
+          // log('Not connected');
           messageShown = true;
         }
       });
@@ -46,26 +45,25 @@ class AssetDataController extends GetxController {
   String? assetHisoryUrl;
   String? assetDataUrl;
   List<ChartDataModel> chartDataModel = [];
-  RxString interval = 'd1'.obs;
+  String interval = 'd1';
 
   //*To Get the coin history api.coincap.io/v2/assets/bitcoin/history?interval=d1
 
   @override
   onInit() {
-    log("Screen1");
-    log("connected value for screen 1");
+    // log("Screen1");
+    // log("connected value for screen 1");
     getConnectivity();
-    assetDataUrl =
-        baseUrl + getCoinList + "/" + Get.arguments[0] + "?API_KEY=$apiKey";
+
     if (isConnected.value == false) {
       Timer.periodic(const Duration(seconds: 1), (timer) {
-        log('init called');
+        // log('init called');
         chartDataModel.clear();
         getCoinHistory();
         getAssetData();
       });
     } else {
-      log('message111111');
+      // log('message111111');
     }
     super.onInit();
   }
@@ -78,60 +76,50 @@ class AssetDataController extends GetxController {
   }
 
   Future<void> getCoinHistory() async {
-    assetHisoryUrl = baseUrl +
-        getCoinList +
-        "/" +
-        Get.arguments[0] +
-        "/history?interval=${interval.value}&API_KEY=" +
-        apiKey;
-    var url = Uri.parse(assetHisoryUrl!);
-    String fileName = "pathString.json";
+    String fileName = "pathString2.json";
     var dir = await getTemporaryDirectory();
     File file = File(dir.path + '/' + fileName);
-    if (isConnected.value == true) {
-      // if (file.existsSync()) {
-      //   log('cache 2');
-      //   log('Reading from cache');
-      //   log('cache 2');
+    if (isConnected.value == false) {
+      if (file.existsSync()) {
+        // log('cache 2');
+        log('Reading from cache');
+        // log('cache 2');
 
-      //   final cacheData = file.readAsStringSync();
-      //   final data = json.decode(cacheData);
-      //   log('**********************');
-      //   // log(data.toString());
-      //   // log('**********************');
-      //   oneDayCoinHistoryResponseModel.value =
-      //       OneDayCoinHistoryResponseModel.fromJson(data);
-      //   streamController.sink.add(oneDayCoinHistoryResponseModel.value);
-      //   for (int i = 0;
-      //       i < oneDayCoinHistoryResponseModel.value.data!.length;
-      //       i++) {
-      //     chartDataModel.add(
-      //       ChartDataModel(
-      //         double.tryParse(
-      //             oneDayCoinHistoryResponseModel.value.data![i].priceUsd!)!,
-      //         DateTime.fromMicrosecondsSinceEpoch(
-      //             oneDayCoinHistoryResponseModel.value.data![i].time! * 1000),
-      //       ),
-      //     );
-      //     // log(chartDataModel.first.year.toString());
-      //     // closeStream();
-      //     // oneDayCoinHistoryResponseModel.refresh();
-      //   }
-      //   // Get.snackbar('title', 'cache');
-      // }
-      // Get.snackbar(
-      //   StringUtils.error,
-      //   StringUtils.connectionErrorMessage,
-      //   snackPosition: SnackPosition.BOTTOM,
-      //   backgroundColor: Colors.red,
-      //   colorText: Colors.white,
-      //   snackStyle: SnackStyle.FLOATING,
-      //   duration: const Duration(seconds: 3),
-      // );
+        final cacheData = file.readAsStringSync();
+        final data = json.decode(cacheData);
+        // log('**********************');
+        // log(data.toString());
+        // log('**********************');
+        oneDayCoinHistoryResponseModel.value =
+            OneDayCoinHistoryResponseModel.fromJson(data);
+        streamController.sink.add(oneDayCoinHistoryResponseModel.value);
+        for (int i = 0;
+            i < oneDayCoinHistoryResponseModel.value.data!.length;
+            i++) {
+          chartDataModel.add(
+            ChartDataModel(
+              double.tryParse(
+                  oneDayCoinHistoryResponseModel.value.data![i].priceUsd!)!,
+              DateTime.fromMicrosecondsSinceEpoch(
+                  oneDayCoinHistoryResponseModel.value.data![i].time! * 1000),
+            ),
+          );
+          // log(chartDataModel.first.year.toString());
+          // closeStream();
+          // oneDayCoinHistoryResponseModel.refresh();
+        }
+      }
     } else {
-      log('############################');
-      log('Reading from server');
-      log('############################');
+      // log('############################');
+      // log('Reading from server');
+      // log('############################');
+      assetHisoryUrl = baseUrl +
+          getCoinList +
+          "/" +
+          Get.arguments[0] +
+          "/history?interval=$interval&API_KEY=" +
+          apiKey;
+      var url = Uri.parse(assetHisoryUrl!);
 
       final response = await http.get(url);
       // debugPrint(response.statusCode.toString());
@@ -175,31 +163,25 @@ class AssetDataController extends GetxController {
   }
 
   Future<void> getAssetData() async {
-    var url = Uri.parse(assetDataUrl!);
     String fileName = "pathString1.json";
     var dir = await getTemporaryDirectory();
     File file = File(dir.path + '/' + fileName);
-    if (isConnected.value == true) {
-      // if (file.existsSync()) {
-      //   log('Reading from cache');
-      //   final cacheData = file.readAsStringSync();
-      //   final data = json.decode(cacheData);
-      //   assetDataResponseModel.value = AssetDataResponseModel.fromJson(data);
-      //   streamController1.sink.add(assetDataResponseModel.value);
-      //   // Get.snackbar('title', 'cache');
-      //   return data;
-      // }
-      // Get.snackbar(
-      //   StringUtils.error,
-      //   StringUtils.connectionErrorMessage,
-      //   snackPosition: SnackPosition.BOTTOM,
-      //   backgroundColor: Colors.red,
-      //   colorText: Colors.white,
-      //   snackStyle: SnackStyle.FLOATING,
-      //   duration: const Duration(seconds: 3),
-      // );
+    if (isConnected.value == false) {
+      if (file.existsSync()) {
+        // log('Reading from cache');
+        final cacheData = file.readAsStringSync();
+        final data = json.decode(cacheData);
+        assetDataResponseModel.value = AssetDataResponseModel.fromJson(data);
+        streamController1.sink.add(assetDataResponseModel.value);
+        // Get.snackbar('title', 'cache');
+        return data;
+      }
     } else {
-      log('asset data Reading from server');
+      // log('asset data Reading from server');
+      assetDataUrl =
+          baseUrl + getCoinList + "/" + Get.arguments[0] + "?API_KEY=$apiKey";
+      var url = Uri.parse(assetDataUrl!);
+
       final response = await http.get(url);
       file.writeAsStringSync(response.body, flush: true, mode: FileMode.write);
       final data = json.decode(response.body);
