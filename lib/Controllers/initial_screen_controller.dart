@@ -34,7 +34,7 @@ class InitialScreenController extends GetxController {
             Get.snackbar(
               StringUtils.attention,
               StringUtils.connectionErrorMessage,
-              snackPosition: SnackPosition.BOTTOM,
+              snackPosition: SnackPosition.TOP,
               backgroundColor: Colors.red,
               colorText: Colors.white,
               snackStyle: SnackStyle.FLOATING,

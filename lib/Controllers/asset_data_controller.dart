@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:crypto_ticker/Models/ResponseModels/asset_data_response_model.dart';
 import 'package:crypto_ticker/Models/chart_data_model.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -45,7 +46,7 @@ class AssetDataController extends GetxController {
   String? assetHisoryUrl;
   String? assetDataUrl;
   List<ChartDataModel> chartDataModel = [];
-  String interval = 'd1';
+  RxString interval = 'd1'.obs;
 
   //*To Get the coin history api.coincap.io/v2/assets/bitcoin/history?interval=d1
 
@@ -79,7 +80,7 @@ class AssetDataController extends GetxController {
     String fileName = "pathString2.json";
     var dir = await getTemporaryDirectory();
     File file = File(dir.path + '/' + fileName);
-    if (isConnected.value == false) {
+    if (isConnected.value == true) {
       if (file.existsSync()) {
         // log('cache 2');
         log('Reading from cache');
@@ -117,11 +118,20 @@ class AssetDataController extends GetxController {
           getCoinList +
           "/" +
           Get.arguments[0] +
-          "/history?interval=$interval&API_KEY=" +
+          "/history?interval=${interval.value}&API_KEY=" +
           apiKey;
       var url = Uri.parse(assetHisoryUrl!);
-
-      final response = await http.get(url);
+      var response;
+      var error;
+      try {
+        response = await http.get(url);
+      } catch (e) {
+        error = e.toString();
+        log(e.toString());
+      }
+      if (error == "Failed host lookup: 'api.coincap.io'") {
+        isConnected.value = !isConnected.value;
+      }
       // debugPrint(response.statusCode.toString());
       // debugPrint(url.toString());
       // debugPrint(response.body);
