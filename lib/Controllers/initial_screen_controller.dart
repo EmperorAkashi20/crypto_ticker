@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:crypto_ticker/Models/ResponseModels/all_assets_response_model.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:path_provider/path_provider.dart';
 
 class InitialScreenController extends GetxController {
   Rx<AllAssetsResponseModel> allAssetsResponseModel =
@@ -46,9 +48,14 @@ class InitialScreenController extends GetxController {
   @override
   onInit() {
     getConnectivity();
-    Timer.periodic(const Duration(seconds: 1), (timer) {
-      getCryptoPrice();
-    });
+    log(isConnected.toString());
+    if (isConnected == false) {
+      Timer.periodic(const Duration(seconds: 1), (timer) {
+        getCryptoPrice();
+      });
+    } else {
+      log('message111111');
+    }
     super.onInit();
   }
 
@@ -77,22 +84,44 @@ class InitialScreenController extends GetxController {
 
   Future<void> getCryptoPrice() async {
     var url = Uri.parse(baseUrl + getCoinList + "?API_KEY=$apiKey");
-    final response = await http.get(url);
     // debugPrint(response.statusCode.toString());
     // debugPrint(url.toString());
-
-    final data = json.decode(response.body);
-    if (data == null) {
-      if (Get.isDialogOpen ?? false) Get.back();
-      return;
-    } else {
-      if (data['data'] != null) {
-        if (Get.isDialogOpen ?? false) Get.back();
+    String fileName = "pathString.json";
+    var dir = await getTemporaryDirectory();
+    File file = File(dir.path + '/' + fileName);
+    if (isConnected == false) {
+      debugPrint(file.existsSync().toString());
+      if (file.existsSync()) {
+        log('Reading from cache');
+        final cacheData = file.readAsStringSync();
+        final data = json.decode(cacheData);
         allAssetsResponseModel.value = AllAssetsResponseModel.fromJson(data);
         streamController.sink.add(allAssetsResponseModel.value);
-      } else {
+        // Get.snackbar('title', 'cache');
+        return data;
+      }
+    } else {
+      log('Reading from server');
+      // Get.snackbar('title', 'server');
+
+      final response = await http.get(url);
+      file.writeAsStringSync(response.body, flush: true, mode: FileMode.write);
+      final data = json.decode(response.body);
+      if (data == null) {
         if (Get.isDialogOpen ?? false) Get.back();
-        Get.snackbar(StringUtils.hasErrorMessage, StringUtils.hasErrorTitle);
+        return;
+      } else {
+        if (data['data'] != null) {
+          if (Get.isDialogOpen ?? false) Get.back();
+          allAssetsResponseModel.value = AllAssetsResponseModel.fromJson(data);
+          streamController.sink.add(allAssetsResponseModel.value);
+
+          return data;
+        } else {
+          if (Get.isDialogOpen ?? false) Get.back();
+          Get.snackbar(StringUtils.hasErrorMessage, StringUtils.hasErrorTitle);
+          return jsonDecode(response.body);
+        }
       }
     }
   }

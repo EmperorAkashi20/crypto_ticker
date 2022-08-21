@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -69,8 +70,15 @@ class AssetCard extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        child: Image.network(
-                          'https://assets.coincap.io/assets/icons/${symbol.toString().toLowerCase()}@2x.png',
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              'https://assets.coincap.io/assets/icons/${symbol.toString().toLowerCase()}@2x.png',
+                          progressIndicatorBuilder:
+                              (context, url, downloadProgress) =>
+                                  CircularProgressIndicator(
+                                      value: downloadProgress.progress),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
                           // height: windowHeight * 0.1,
                           // width: windowWidth * 0.1,
                         ),

@@ -39,10 +39,10 @@ dependencies:
   connectivity_plus:
   internet_connection_checker:
   sqflite:
+  path_provider:
+  cached_network_image:
   # data_connection_checker:
   google_fonts:
-  hive:
-  hive_flutter:
   device_info:
   # fl_chart:
   syncfusion_flutter_charts: ^20.2.44

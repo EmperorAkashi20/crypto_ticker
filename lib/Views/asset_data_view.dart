@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:crypto_ticker/Controllers/asset_data_controller.dart';
 import 'package:crypto_ticker/DeviceManager/screen_constants.dart';
 import 'package:crypto_ticker/Models/ResponseModels/asset_data_response_model.dart';
@@ -31,9 +32,12 @@ class AssetDataView extends StatelessWidget {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.network(
-                Get.arguments[2],
+              CachedNetworkImage(
+                imageUrl: Get.arguments[2],
                 height: windowHeight * 0.055,
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    CircularProgressIndicator(value: downloadProgress.progress),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
               SizedBox(
                 width: windowWidth * 0.02,
