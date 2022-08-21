@@ -8,15 +8,17 @@ import '../Widgets/asset_card.dart';
 
 class InitialScreen extends StatelessWidget {
   InitialScreen({Key? key}) : super(key: key);
-  final InitialScreenController initialScreenController =
-      Get.put(InitialScreenController());
+  final InitialScreenController initialScreenController = Get.put(
+      InitialScreenController()); //*To get the instance of the controller.
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(initialScreenController.allAssetsResponseModel.value.data?.length
-        .toString());
-    double windowHeight = MediaQuery.of(context).size.height;
-    double windowWidth = MediaQuery.of(context).size.width;
+    // debugPrint(initialScreenController.allAssetsResponseModel.value.data?.length
+    //     .toString());
+    double windowHeight =
+        MediaQuery.of(context).size.height; //height of the screen
+    double windowWidth =
+        MediaQuery.of(context).size.width; //width of the screen
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(windowHeight * 0.08),
@@ -26,6 +28,7 @@ class InitialScreen extends StatelessWidget {
           title: const Text('Crypto Ticker'),
         ),
       ),
+      //*Stream builder to get and show the data from API. ListView.builder has been used to show the data in a list. The size depends on the query that we pass to the API. The AssetCard is a widget which has been imported from the widgets folder.
       body: StreamBuilder<AllAssetsResponseModel>(
         stream: initialScreenController.streamController.stream,
         builder: (context, snapdata) {

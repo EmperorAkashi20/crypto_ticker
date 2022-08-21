@@ -52,6 +52,7 @@ class AssetDataController extends GetxController {
 
   //*To Get the coin history api.coincap.io/v2/assets/bitcoin/history?interval=d1
 
+//*on init method checks connection, if connected then it calls the function to get the coin history and coin data.
   @override
   onInit() {
     // log("Screen1");
@@ -78,6 +79,7 @@ class AssetDataController extends GetxController {
     super.dispose();
   }
 
+//*This is the function to get the coin history.
   Future<void> getCoinHistory() async {
     String fileName = "pathString2.json";
     var dir = await getTemporaryDirectory();
@@ -179,6 +181,7 @@ class AssetDataController extends GetxController {
     }
   }
 
+//*This is the function to get the coin data.
   Future<void> getAssetData() async {
     String fileName = "pathString1.json";
     var dir = await getTemporaryDirectory();

@@ -29,23 +29,18 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  get:
-  auto_size_text:
-  logger:
-  intl:
-  responsive_framework:
-  http:
-  cupertino_icons:
-  connectivity_plus:
-  internet_connection_checker:
-  sqflite:
-  path_provider:
-  cached_network_image:
+  get: #!State management
+  intl: #!Internationalization
+  responsive_framework: #!Responsive framework
+  http: #!HTTP client for API calls
+  cupertino_icons: #!Icons
+  connectivity_plus: #!Connectivity for checking internet connection
+  internet_connection_checker: #!Connectivity for checking internet connection
+  path_provider: #!Path provider for accessing storage
+  cached_network_image: #!Caching of network image
   # data_connection_checker:
-  google_fonts:
-  device_info:
   # fl_chart:
-  syncfusion_flutter_charts: ^20.2.44
+  syncfusion_flutter_charts: ^20.2.44 #!Chart displaying
 
 dev_dependencies:
   flutter_test:
