@@ -13,15 +13,18 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:path_provider/path_provider.dart';
 
 class InitialScreenController extends GetxController {
-  Rx<AllAssetsResponseModel> allAssetsResponseModel =
-      AllAssetsResponseModel().obs;
+  Rx<AllAssetsResponseModel> allAssetsResponseModel = AllAssetsResponseModel()
+      .obs; //This is created to store the response from the API into the response model to use later.
   final StreamController<AllAssetsResponseModel> streamController =
-      StreamController();
+      StreamController(); //Stream controller to stream the response from the API. We use streams since we need to update the app every second.
 
-  late StreamSubscription connection;
-  RxBool isConnected = false.obs;
-  bool messageShown = false;
+  late StreamSubscription
+      connection; //Stream subscription to check the connection.
+  RxBool isConnected = false.obs; //Rx bool to update the value of connection
+  bool messageShown =
+      false; //This is used later to show the connected/disconnected message only once.
 
+//*This is the method to get the connection status and update the values accordingly.
   getConnectivity() => connection = Connectivity()
           .onConnectivityChanged
           .listen((ConnectivityResult result) async {
@@ -44,6 +47,8 @@ class InitialScreenController extends GetxController {
           messageShown = true;
         }
       });
+
+  //*Init state calls the function to get the connection status and based on the connection status call the function to get the value of all assets.
   @override
   onInit() {
     getConnectivity();
@@ -62,13 +67,16 @@ class InitialScreenController extends GetxController {
     streamController.close();
     super.dispose();
   }
-//!add a query param as "?limit=10" to get 10 assets
-//!add a query param as "?search=b" to get all assets starting with "B"
+//!add a query param as "?limit=10" to get 10 assets can be used as a search function
+//!add a query param as "?search=b" to get all assets starting with "B" can be used as a search function
+
+//*Funtion to get the crypto prices, store it to a response model and stream it to the UI every second.
 
   Future<void> getCryptoPrice() async {
     var url = Uri.parse(baseUrl + getCoinList + "?API_KEY=$apiKey");
     // debugPrint(response.statusCode.toString());
     // debugPrint(url.toString());
+    //*Setting file path to store the response in the cache.
     String fileName = "pathString.json";
     var dir = await getTemporaryDirectory();
     File file = File(dir.path + '/' + fileName);
@@ -84,10 +92,15 @@ class InitialScreenController extends GetxController {
         // Get.snackbar('title', 'cache');
         return data;
       }
+      //*If no internet exists, then read from the cache.
+
+      //*If internet exists, fetch data from the API and store it in the cache and constantly update it.
     } else {
       // log('Reading from server');
       final response = await http.get(url);
-      file.writeAsStringSync(response.body, flush: true, mode: FileMode.write);
+      file.writeAsStringSync(response.body,
+          flush: true,
+          mode: FileMode.write); //*Writing the response to the cache.
       final data = json.decode(response.body);
       // log(response.statusCode.toString());
       // log(response.body);
@@ -97,8 +110,10 @@ class InitialScreenController extends GetxController {
       } else {
         if (data['data'] != null) {
           if (Get.isDialogOpen ?? false) Get.back();
-          allAssetsResponseModel.value = AllAssetsResponseModel.fromJson(data);
-          streamController.sink.add(allAssetsResponseModel.value);
+          allAssetsResponseModel.value = AllAssetsResponseModel.fromJson(
+              data); //*Storing the response to the response model.
+          streamController.sink.add(allAssetsResponseModel
+              .value); //*Streaming the response to the UI.
 
           return data;
         } else {

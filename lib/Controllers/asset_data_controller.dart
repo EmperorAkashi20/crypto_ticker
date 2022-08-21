@@ -137,38 +137,43 @@ class AssetDataController extends GetxController {
       // debugPrint(response.statusCode.toString());
       // debugPrint(url.toString());
       // debugPrint(response.body);
-      file.writeAsStringSync(response.body, flush: true, mode: FileMode.write);
-      final data = json.decode(response.body);
-      // log(data.toString());
-      if (data == null) {
-        if (Get.isDialogOpen ?? false) Get.back();
-        return;
-      } else {
-        if (data['data'] != null) {
+      if (error != "Failed host lookup: 'api.coincap.io'") {
+        file.writeAsStringSync(response.body,
+            flush: true, mode: FileMode.write);
+        final data = json.decode(response.body);
+        // log(data.toString());
+        if (data == null) {
           if (Get.isDialogOpen ?? false) Get.back();
-          oneDayCoinHistoryResponseModel.value =
-              OneDayCoinHistoryResponseModel.fromJson(data);
-          streamController.sink.add(oneDayCoinHistoryResponseModel.value);
-          for (int i = 0;
-              i < oneDayCoinHistoryResponseModel.value.data!.length;
-              i++) {
-            chartDataModel.add(
-              ChartDataModel(
-                double.tryParse(
-                    oneDayCoinHistoryResponseModel.value.data![i].priceUsd!)!,
-                DateTime.fromMicrosecondsSinceEpoch(
-                    oneDayCoinHistoryResponseModel.value.data![i].time! * 1000),
-              ),
-            );
-            // log(chartDataModel.first.year.toString());
-            // closeStream();
-            // oneDayCoinHistoryResponseModel.refresh();
-          }
-          return data;
+          return;
         } else {
-          if (Get.isDialogOpen ?? false) Get.back();
-          Get.snackbar(StringUtils.hasErrorMessage, StringUtils.hasErrorTitle);
-          return jsonDecode(response.body);
+          if (data['data'] != null) {
+            if (Get.isDialogOpen ?? false) Get.back();
+            oneDayCoinHistoryResponseModel.value =
+                OneDayCoinHistoryResponseModel.fromJson(data);
+            streamController.sink.add(oneDayCoinHistoryResponseModel.value);
+            for (int i = 0;
+                i < oneDayCoinHistoryResponseModel.value.data!.length;
+                i++) {
+              chartDataModel.add(
+                ChartDataModel(
+                  double.tryParse(
+                      oneDayCoinHistoryResponseModel.value.data![i].priceUsd!)!,
+                  DateTime.fromMicrosecondsSinceEpoch(
+                      oneDayCoinHistoryResponseModel.value.data![i].time! *
+                          1000),
+                ),
+              );
+              // log(chartDataModel.first.year.toString());
+              // closeStream();
+              // oneDayCoinHistoryResponseModel.refresh();
+            }
+            return data;
+          } else {
+            if (Get.isDialogOpen ?? false) Get.back();
+            Get.snackbar(
+                StringUtils.hasErrorMessage, StringUtils.hasErrorTitle);
+            return jsonDecode(response.body);
+          }
         }
       }
     }
@@ -204,26 +209,30 @@ class AssetDataController extends GetxController {
       if (error == "Failed host lookup: 'api.coincap.io'") {
         isConnected.value = !isConnected.value;
       }
-
-      file.writeAsStringSync(response.body, flush: true, mode: FileMode.write);
-      final data = json.decode(response.body);
-      // debugPrint(response.statusCode.toString());
-      // debugPrint(url.toString());
-      if (data == null) {
-        if (Get.isDialogOpen ?? false) Get.back();
-        return;
-      } else {
-        if (data['data'] != null) {
+      if (error != "Failed host lookup: 'api.coincap.io'") {
+        file.writeAsStringSync(response.body,
+            flush: true, mode: FileMode.write);
+        final data = json.decode(response.body);
+        // debugPrint(response.statusCode.toString());
+        // debugPrint(url.toString());
+        if (data == null) {
           if (Get.isDialogOpen ?? false) Get.back();
-          assetDataResponseModel.value = AssetDataResponseModel.fromJson(data);
-          streamController1.sink.add(assetDataResponseModel.value);
-
-          return data;
+          return;
         } else {
-          if (Get.isDialogOpen ?? false) Get.back();
-          Get.snackbar(StringUtils.hasErrorMessage, StringUtils.hasErrorTitle);
+          if (data['data'] != null) {
+            if (Get.isDialogOpen ?? false) Get.back();
+            assetDataResponseModel.value =
+                AssetDataResponseModel.fromJson(data);
+            streamController1.sink.add(assetDataResponseModel.value);
 
-          return jsonDecode(response.body);
+            return data;
+          } else {
+            if (Get.isDialogOpen ?? false) Get.back();
+            Get.snackbar(
+                StringUtils.hasErrorMessage, StringUtils.hasErrorTitle);
+
+            return jsonDecode(response.body);
+          }
         }
       }
     }

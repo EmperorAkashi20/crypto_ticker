@@ -9,10 +9,12 @@ import 'Router/nav_router.dart';
 import 'Router/route_constants.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding
+      .ensureInitialized(); //Used for using widgets before initializing the app
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
-    runApp(const CryptoTicker());
+    //Used for setting the orientation of the app
+    runApp(const CryptoTicker()); //Used for running the app
   });
 }
 
@@ -23,7 +25,9 @@ class CryptoTicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      //Since we ae using GetX as state management framework, we need to use GetMaterialApp
       builder: (context, widget) => ResponsiveWrapper.builder(
+          //Used for setting the responsive design of the app
           BouncingScrollWrapper.builder(context, widget!),
           maxWidth: 2460,
           minWidth: 450,
@@ -38,10 +42,13 @@ class CryptoTicker extends StatelessWidget {
           background: Container(color: const Color(0xFFF5F5F5))),
       debugShowCheckedModeBanner: false,
       initialRoute: initalScreen, //The 1st route when the app is launched.
-      defaultTransition: Transition.native,
-      getPages: NavRouter.generateRoute,
-      title: 'Pokedex',
+      defaultTransition:
+          Transition.native, //Used for setting the transition of the app
+      getPages:
+          NavRouter.generateRoute, //Used for setting the routes of the app
+      title: 'Crypto Ticker', //Used for setting the title of the app
       theme: ThemeData(
+        //Used for setting the theme of the app
         primarySwatch: Colors.red,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
