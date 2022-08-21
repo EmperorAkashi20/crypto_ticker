@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
@@ -191,8 +193,18 @@ class AssetDataController extends GetxController {
       assetDataUrl =
           baseUrl + getCoinList + "/" + Get.arguments[0] + "?API_KEY=$apiKey";
       var url = Uri.parse(assetDataUrl!);
+      var response;
+      var error;
+      try {
+        response = await http.get(url);
+      } catch (e) {
+        error = e.toString();
+        log(e.toString());
+      }
+      if (error == "Failed host lookup: 'api.coincap.io'") {
+        isConnected.value = !isConnected.value;
+      }
 
-      final response = await http.get(url);
       file.writeAsStringSync(response.body, flush: true, mode: FileMode.write);
       final data = json.decode(response.body);
       // debugPrint(response.statusCode.toString());
