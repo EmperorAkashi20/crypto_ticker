@@ -32,4 +32,15 @@ class TextStyles {
         fontWeight: FontWeight.w500,
         color: Colors.grey.shade600,
       );
+
+  static TextStyle get subTitle => TextStyle(
+        color: Colors.black,
+        fontSize: FontSize.s14,
+        fontWeight: FontWeight.w600,
+      );
+  static TextStyle get lowerSubTitle => TextStyle(
+        color: Colors.black,
+        fontSize: FontSize.s12,
+        //fontWeight: FontWeight.w600,
+      );
 }

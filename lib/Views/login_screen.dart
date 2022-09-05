@@ -1,6 +1,10 @@
+import 'dart:developer';
+
 import 'package:crypto_ticker/Controllers/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../Widgets/text_fields.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -29,29 +33,16 @@ class LoginScreen extends StatelessWidget {
               padding:
                   EdgeInsets.only(right: 35, left: 35, top: windowHeight * 0.5),
               child: Column(children: [
-                TextField(
-                  decoration: InputDecoration(
-                    fillColor: Colors.grey.shade100,
-                    filled: true,
-                    hintText: 'Email',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
+                TextFields(
+                  type: Type.email,
+                  textEditingController: loginController.emailController,
                 ),
                 const SizedBox(
                   height: 30,
                 ),
-                TextField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    fillColor: Colors.grey.shade100,
-                    filled: true,
-                    hintText: 'Password',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
+                TextFields(
+                  type: Type.password,
+                  textEditingController: loginController.passwordController,
                 ),
                 const SizedBox(
                   height: 40,
@@ -74,6 +65,7 @@ class LoginScreen extends StatelessWidget {
                         color: Colors.white,
                         onPressed: () {
                           loginController.onSignInButtonTapped();
+                          // log(loginController.emailController.text);
                         },
                         icon: const Icon(Icons.arrow_forward),
                       ),
