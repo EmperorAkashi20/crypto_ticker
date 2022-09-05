@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:crypto_ticker/Controllers/login_controller.dart';
 import 'package:crypto_ticker/DeviceManager/screen_constants.dart';
 import 'package:flutter/material.dart';
@@ -83,7 +81,7 @@ class LoginScreen extends StatelessWidget {
                   windowHeight: windowHeight,
                   text: 'Login',
                   onTap: () {
-                    loginController.onSignInButtonTapped();
+                    loginController.signInCheck();
                   },
                 ),
                 SizedBox(

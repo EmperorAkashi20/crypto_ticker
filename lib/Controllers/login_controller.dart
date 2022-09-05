@@ -17,7 +17,7 @@ class LoginController extends GetxController {
     emailController = TextEditingController();
     passwordController = TextEditingController();
     firebaseInstance = FirebaseAuth.instance;
-    debugData();
+    // debugData();
     super.onInit();
   }
 
@@ -29,17 +29,18 @@ class LoginController extends GetxController {
   }
 
   signInCheck() {
-    if (emailController.text.isEmpty && passwordController.text.isEmpty) {}
+    if (emailController.text.isEmpty && passwordController.text.isEmpty) {
+      showToast('All fields are mandatory', 'attention');
+    } else if (emailController.text.isEmpty) {
+      showToast('Email required', 'attention');
+    } else if (passwordController.text.isEmpty) {
+      showToast('Password required', 'attention');
+    } else {
+      onSignInButtonTapped();
+    }
   }
 
   Future onSignInButtonTapped() async {
-    // Get.isDialogOpen ?? true
-    //     ? const Offstage()
-    //     : Get.dialog(
-    //         const Center(
-    //           child: CircularProgressIndicator(),
-    //         ),
-    //         barrierDismissible: false);
     try {
       await firebaseInstance.signInWithEmailAndPassword(
         email: emailController.text,
