@@ -20,6 +20,7 @@ class InitialScreen extends StatelessWidget {
     double windowWidth =
         MediaQuery.of(context).size.width; //width of the screen
     return Scaffold(
+      backgroundColor: Colors.blueGrey.shade900,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(windowHeight * 0.08),
         child: DefaultAppBar(

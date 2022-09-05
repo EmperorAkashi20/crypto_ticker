@@ -1,3 +1,4 @@
+import 'package:crypto_ticker/DeviceManager/screen_constants.dart';
 import 'package:flutter/material.dart';
 
 class DefaultAppBar extends StatelessWidget {
@@ -24,21 +25,26 @@ class DefaultAppBar extends StatelessWidget {
       centerTitle: true,
       flexibleSpace: Container(
         height: windowHeight * 0.3,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
+          // color: Colors.blueGrey.shade700,
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Colors.blue,
-              Colors.red,
+              Colors.blueGrey.shade800,
+              Colors.blueGrey.shade900,
             ],
           ),
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             bottomLeft: Radius.circular(50),
           ),
         ),
       ),
       title: title,
+      titleTextStyle: TextStyle(
+        fontSize: FontSize.s22,
+        fontWeight: FontWeight.bold,
+      ),
     );
   }
 }

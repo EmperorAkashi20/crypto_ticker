@@ -49,6 +49,7 @@ class AssetCard extends StatelessWidget {
           );
         },
         child: Card(
+          color: Colors.blueGrey.shade900,
           elevation: 1,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
@@ -59,13 +60,14 @@ class AssetCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              padding: const EdgeInsets.symmetric(horizontal: 2.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     children: [
                       Card(
+                        color: Colors.transparent,
                         elevation: 3,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),

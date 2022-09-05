@@ -24,7 +24,7 @@ class IntervalContainer extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             border: Border.all(
-              color: Colors.black,
+              color: Colors.blueGrey,
               width: 1,
             ),
           ),

@@ -12,19 +12,19 @@ class TextStyles {
   static TextStyle get assetNameTextStyle => TextStyle(
         fontSize: FontSize.s18,
         fontWeight: FontWeight.bold,
-        color: Colors.black,
+        color: Colors.orange,
       );
 
   static TextStyle get symbolTextStyle => TextStyle(
         fontSize: FontSize.s14,
         fontWeight: FontWeight.w400,
-        color: Colors.black,
+        color: Colors.blue,
       );
 
   static TextStyle get priceLabelTextStyle => TextStyle(
         fontSize: FontSize.s17,
         fontWeight: FontWeight.bold,
-        color: Colors.black,
+        color: Colors.blue,
       );
 
   static TextStyle get marketCapTextStyle => TextStyle(

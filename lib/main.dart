@@ -39,7 +39,7 @@ class CryptoTicker extends StatelessWidget {
           ],
           background: Container(color: const Color(0xFFF5F5F5))),
       debugShowCheckedModeBanner: false,
-      initialRoute: initalScreen, //The 1st route when the app is launched.
+      initialRoute: loginScreen, //The 1st route when the app is launched.
       defaultTransition:
           Transition.native, //Used for setting the transition of the app
       getPages:

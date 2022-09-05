@@ -23,9 +23,15 @@ class AssetDataView extends StatelessWidget {
     double windowWidth = MediaQuery.of(context).size.width;
     double windowHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: Colors.blueGrey.shade900,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(windowHeight * 0.08),
         child: DefaultAppBar(
+          actions: const [
+            CloseButton(
+              color: Colors.blueGrey,
+            ),
+          ],
           windowHeight: windowHeight,
           windowWidth: windowWidth,
           title: Row(
