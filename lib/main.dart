@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -5,10 +6,15 @@ import 'package:responsive_framework/responsive_framework.dart';
 
 import 'Router/nav_router.dart';
 import 'Router/route_constants.dart';
+import 'firebase_options.dart';
 
 void main() async {
-  WidgetsFlutterBinding
-      .ensureInitialized(); //Used for using widgets before initializing the app
+  WidgetsFlutterBinding.ensureInitialized();
+  //Used for using widgets before initializing the app
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     //Used for setting the orientation of the app

@@ -83,8 +83,7 @@ class LoginScreen extends StatelessWidget {
                   windowHeight: windowHeight,
                   text: 'Login',
                   onTap: () {
-                    // loginController.onSignInButtonTapped();
-                    log('message');
+                    loginController.onSignInButtonTapped();
                   },
                 ),
                 SizedBox(

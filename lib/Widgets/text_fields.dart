@@ -120,6 +120,21 @@ class _TextFieldsState extends State<TextFields> {
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
+              enabledBorder: const OutlineInputBorder(
+                //Enabled border for the form field
+                borderSide: BorderSide(color: Colors.transparent, width: 2.0),
+                borderRadius: BorderRadius.all(
+                  //Border radius for the form field
+                  Radius.circular(10.0),
+                ),
+              ),
+              focusedBorder: const OutlineInputBorder(
+                //Focused border for the form field
+                borderSide: BorderSide(color: Colors.transparent, width: 2.0),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10.0),
+                ),
+              ),
             ),
           );
         }
@@ -142,6 +157,21 @@ class _TextFieldsState extends State<TextFields> {
               hintStyle: TextStyles.hintTextStyle,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
+              ),
+              enabledBorder: const OutlineInputBorder(
+                //Enabled border for the form field
+                borderSide: BorderSide(color: Colors.transparent, width: 2.0),
+                borderRadius: BorderRadius.all(
+                  //Border radius for the form field
+                  Radius.circular(10.0),
+                ),
+              ),
+              focusedBorder: const OutlineInputBorder(
+                //Focused border for the form field
+                borderSide: BorderSide(color: Colors.transparent, width: 2.0),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10.0),
+                ),
               ),
               suffixIcon: IconButton(
                 //Suffix icon for the form field
