@@ -74,6 +74,7 @@ class AssetCard extends StatelessWidget {
                         ),
                         child: SizedBox(
                           height: windowHeight * 0.055,
+                          width: windowWidth * 0.12,
                           child: CachedNetworkImage(
                             imageUrl:
                                 'https://assets.coincap.io/assets/icons/${symbol.toString().toLowerCase()}@2x.png',
