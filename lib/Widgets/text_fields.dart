@@ -113,9 +113,10 @@ class _TextFieldsState extends State<TextFields> {
             validator: validateEmail,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
-              fillColor: Colors.grey.shade100,
+              fillColor: Colors.blueGrey,
               filled: true,
-              hintText: 'Email',
+              hintText: 'john@doe.com',
+              hintStyle: TextStyles.hintTextStyle,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -135,9 +136,10 @@ class _TextFieldsState extends State<TextFields> {
             autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
               errorMaxLines: 2,
-              fillColor: Colors.grey.shade100,
+              fillColor: Colors.blueGrey,
               filled: true,
               hintText: 'Password',
+              hintStyle: TextStyles.hintTextStyle,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -149,7 +151,7 @@ class _TextFieldsState extends State<TextFields> {
                           .visibility_off_outlined //If the indicator is true, then the icon is the eye closed icon
                       : Icons.visibility_outlined,
                   //If the indicator is false, then the icon is the eye open icon
-                  color: Colors.grey.shade700,
+                  color: Colors.grey.shade900,
                 ),
                 onPressed: () {
                   setState(() {

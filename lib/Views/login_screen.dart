@@ -1,10 +1,13 @@
 import 'dart:developer';
 
 import 'package:crypto_ticker/Controllers/login_controller.dart';
+import 'package:crypto_ticker/DeviceManager/screen_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../Widgets/primary_button.dart';
 import '../Widgets/text_fields.dart';
+import '../Widgets/text_form_field_title.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -13,100 +16,107 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final LoginController loginController = Get.put(LoginController());
     double windowHeight = MediaQuery.of(context).size.height;
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-            image: AssetImage('assets/images/login.png'), fit: BoxFit.cover),
-      ),
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
       child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Stack(children: [
-          Container(
-            padding: const EdgeInsets.only(left: 35, top: 80),
-            child: const Text(
-              "Welcome\nBack",
-              style: TextStyle(color: Colors.white, fontSize: 33),
-            ),
-          ),
-          SingleChildScrollView(
-            child: Container(
-              padding:
-                  EdgeInsets.only(right: 35, left: 35, top: windowHeight * 0.5),
-              child: Column(children: [
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.blueGrey.shade900,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 38.0),
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                SizedBox(
+                  height: windowHeight * 0.15,
+                ),
+                Text(
+                  "Welcome Back",
+                  style: TextStyle(
+                    fontSize: FontSize.s36,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(
+                  height: windowHeight * 0.01,
+                ),
+                Text(
+                  "Please login to continue",
+                  style: TextStyle(
+                    fontSize: FontSize.s18,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(
+                  height: windowHeight * 0.08,
+                ),
+                const TextFormFieldTitle(
+                  title: "Email",
+                ),
+                SizedBox(
+                  height: windowHeight * 0.01,
+                ),
                 TextFields(
-                  type: Type.email,
                   textEditingController: loginController.emailController,
+                  type: Type.email,
                 ),
-                const SizedBox(
-                  height: 30,
+                SizedBox(
+                  height: windowHeight * 0.03,
+                ),
+                const TextFormFieldTitle(
+                  title: "Password",
+                ),
+                SizedBox(
+                  height: windowHeight * 0.01,
                 ),
                 TextFields(
-                  type: Type.password,
                   textEditingController: loginController.passwordController,
+                  type: Type.password,
                 ),
-                const SizedBox(
-                  height: 40,
+                SizedBox(
+                  height: windowHeight * 0.05,
+                ),
+                PrimaryButton(
+                  windowHeight: windowHeight,
+                  text: 'Login',
+                  onTap: () {
+                    // loginController.onSignInButtonTapped();
+                    log('message');
+                  },
+                ),
+                SizedBox(
+                  height: windowHeight * 0.015,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
-                      'Sign In',
+                    Text(
+                      "Don't have an account? ",
                       style: TextStyle(
-                        color: Color(0xff4c505b),
-                        fontSize: 27,
-                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                        fontSize: FontSize.s16,
                       ),
                     ),
-                    CircleAvatar(
-                      radius: 30,
-                      backgroundColor: const Color(0xff4c505b),
-                      child: IconButton(
-                        color: Colors.white,
-                        onPressed: () {
-                          loginController.onSignInButtonTapped();
-                          // log(loginController.emailController.text);
-                        },
-                        icon: const Icon(Icons.arrow_forward),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Text(
+                        'Register here',
+                        style: TextStyle(
+                          color: Colors.white,
+                          decoration: TextDecoration.underline,
+                          fontSize: FontSize.s16,
+                        ),
                       ),
                     ),
                   ],
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, 'register');
-                        },
-                        child: const Text(
-                          'Sign Up',
-                          style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            fontSize: 18,
-                            color: Color(0xff4c505b),
-                          ),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          'Forgot Password',
-                          style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            fontSize: 18,
-                            color: Color(0xff4c505b),
-                          ),
-                        ),
-                      ),
-                    ]),
-              ]),
+                )
+              ],
             ),
           ),
-        ]),
+        ),
       ),
     );
   }

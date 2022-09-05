@@ -43,4 +43,18 @@ class TextStyles {
         fontSize: FontSize.s12,
         //fontWeight: FontWeight.w600,
       );
+  static TextStyle get hintTextStyle => TextStyle(
+        color: Colors.blueGrey.shade900,
+        fontSize: FontSize.s16,
+        //fontWeight: FontWeight.w600,
+      );
+  static TextStyle get titleFieldTextStyle => TextStyle(
+        color: Colors.white,
+        fontSize: FontSize.s18,
+      );
+  static TextStyle get loginButtonTextStyle => TextStyle(
+        color: Colors.white,
+        fontSize: FontSize.s22,
+        fontWeight: FontWeight.w600,
+      );
 }
