@@ -41,6 +41,10 @@ dependencies:
   # data_connection_checker:
   # fl_chart:
   syncfusion_flutter_charts: ^20.2.44 #!Chart displaying
+  firebase_core:
+  firebase_auth:
+  firebase_storage:
+  firebase_database:
 
 dev_dependencies:
   flutter_test:

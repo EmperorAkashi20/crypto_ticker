@@ -8,7 +8,6 @@ import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:crypto_ticker/Models/ResponseModels/asset_data_response_model.dart';
 import 'package:crypto_ticker/Models/chart_data_model.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';

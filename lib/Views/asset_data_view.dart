@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:crypto_ticker/Controllers/asset_data_controller.dart';
-import 'package:crypto_ticker/DeviceManager/screen_constants.dart';
 import 'package:crypto_ticker/Models/ResponseModels/asset_data_response_model.dart';
 import 'package:crypto_ticker/Models/chart_data_model.dart';
 import 'package:flutter/material.dart';

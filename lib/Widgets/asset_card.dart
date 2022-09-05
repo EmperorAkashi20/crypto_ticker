@@ -70,17 +70,20 @@ class AssetCard extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        child: CachedNetworkImage(
-                          imageUrl:
-                              'https://assets.coincap.io/assets/icons/${symbol.toString().toLowerCase()}@2x.png',
-                          progressIndicatorBuilder:
-                              (context, url, downloadProgress) =>
-                                  CircularProgressIndicator(
-                                      value: downloadProgress.progress),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
-                          // height: windowHeight * 0.1,
-                          // width: windowWidth * 0.1,
+                        child: SizedBox(
+                          height: windowHeight * 0.055,
+                          child: CachedNetworkImage(
+                            imageUrl:
+                                'https://assets.coincap.io/assets/icons/${symbol.toString().toLowerCase()}@2x.png',
+                            progressIndicatorBuilder:
+                                (context, url, downloadProgress) =>
+                                    CircularProgressIndicator(
+                                        value: downloadProgress.progress),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
+                            // height: windowHeight * 0.1,
+                            // width: windowWidth * 0.1,
+                          ),
                         ),
                       ),
                       SizedBox(
