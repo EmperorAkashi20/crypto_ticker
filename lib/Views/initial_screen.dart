@@ -20,6 +20,33 @@ class InitialScreen extends StatelessWidget {
     double windowWidth =
         MediaQuery.of(context).size.width; //width of the screen
     return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.blueGrey.shade700,
+        type: BottomNavigationBarType.fixed,
+        elevation: 5,
+        selectedItemColor: Colors.blueAccent,
+        unselectedItemColor: Colors.grey.shade800,
+        items: const [
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.dashboard,
+                size: 25,
+              ),
+              label: 'Dashboard'),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.favorite,
+                size: 25,
+              ),
+              label: 'Favourites'),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person_pin_circle_rounded,
+                size: 25,
+              ),
+              label: 'Profile'),
+        ],
+      ),
       backgroundColor: Colors.blueGrey.shade900,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(windowHeight * 0.08),
