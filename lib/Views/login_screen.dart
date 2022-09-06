@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:crypto_ticker/Controllers/login_controller.dart';
 import 'package:crypto_ticker/DeviceManager/screen_constants.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +44,7 @@ class LoginScreen extends StatelessWidget {
                   height: windowHeight * 0.01,
                 ),
                 Text(
-                  "Please login to continue",
+                  "Login to continue",
                   style: TextStyle(
                     fontSize: FontSize.s18,
                     color: Colors.white,
@@ -98,7 +100,10 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        loginController.onTapRegister();
+                        log('message');
+                      },
                       child: Text(
                         'Register here',
                         style: TextStyle(

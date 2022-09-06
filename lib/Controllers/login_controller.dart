@@ -1,8 +1,8 @@
+import 'package:crypto_ticker/Controllers/firebase_controller.dart';
 import 'package:crypto_ticker/Router/route_constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 import '../Widgets/show_toast.dart';
@@ -10,13 +10,12 @@ import '../Widgets/show_toast.dart';
 class LoginController extends GetxController {
   late TextEditingController emailController;
   late TextEditingController passwordController;
-  late FirebaseAuth firebaseInstance;
+  final FirebaseController firebaseController = Get.find();
 
   @override
   onInit() {
     emailController = TextEditingController();
     passwordController = TextEditingController();
-    firebaseInstance = FirebaseAuth.instance;
     // debugData();
     super.onInit();
   }
@@ -42,7 +41,7 @@ class LoginController extends GetxController {
 
   Future onSignInButtonTapped() async {
     try {
-      await firebaseInstance.signInWithEmailAndPassword(
+      await firebaseController.firebaseInstance.signInWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
@@ -62,5 +61,9 @@ class LoginController extends GetxController {
         showToast('Invalid Password', 'error');
       }
     }
+  }
+
+  onTapRegister() {
+    Get.toNamed(registrationScreen);
   }
 }

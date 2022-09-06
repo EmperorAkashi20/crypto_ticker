@@ -8,6 +8,7 @@ import '../Utils/const_strings.dart';
 enum Type {
   email,
   password,
+  name,
 }
 
 class TextFields extends StatefulWidget {
@@ -193,6 +194,44 @@ class _TextFieldsState extends State<TextFields> {
           );
         }
 
+      case Type.name:
+        {
+          {
+            return TextFormField(
+              controller: _thisController,
+              keyboardType: TextInputType.text,
+              autofocus: false,
+              maxLines: 1,
+              validator: validateName,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              decoration: InputDecoration(
+                fillColor: Colors.blueGrey,
+                filled: true,
+                hintText: 'John Doe',
+                hintStyle: TextStyles.hintTextStyle,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                enabledBorder: const OutlineInputBorder(
+                  //Enabled border for the form field
+                  borderSide: BorderSide(color: Colors.transparent, width: 2.0),
+                  borderRadius: BorderRadius.all(
+                    //Border radius for the form field
+                    Radius.circular(10.0),
+                  ),
+                ),
+                focusedBorder: const OutlineInputBorder(
+                  //Focused border for the form field
+                  borderSide: BorderSide(color: Colors.transparent, width: 2.0),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10.0),
+                  ),
+                ),
+              ),
+            );
+          }
+        }
+
       default:
         {
           return TextFormField(
@@ -249,5 +288,13 @@ class _TextFieldsState extends State<TextFields> {
       return AppLabels.passwordValidation3;
     }
     return null;
+  }
+
+  String? validateName(String? value) {
+    if (value!.isEmpty) {
+      return AppLabels.nameRequired;
+    } else {
+      return null;
+    }
   }
 }

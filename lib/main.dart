@@ -1,3 +1,4 @@
+import 'package:crypto_ticker/Controllers/firebase_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,12 +19,13 @@ void main() async {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     //Used for setting the orientation of the app
-    runApp(const CryptoTicker()); //Used for running the app
+    runApp(CryptoTicker()); //Used for running the app
   });
 }
 
 class CryptoTicker extends StatelessWidget {
-  const CryptoTicker({Key? key}) : super(key: key);
+  final FirebaseController firebaseController = Get.put(FirebaseController());
+  CryptoTicker({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override

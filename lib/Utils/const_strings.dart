@@ -7,4 +7,5 @@ class AppLabels {
       "Password must be 8 alphanumeric characters";
   static const String passwordValidation3 =
       "Password must be atleast one uppercase character";
+  static const String nameRequired = "Name is required";
 }
