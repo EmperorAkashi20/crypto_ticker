@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:crypto_ticker/Controllers/firebase_controller.dart';
 import 'package:crypto_ticker/Router/route_constants.dart';
+import 'package:crypto_ticker/Utils/date_time_management.dart';
 import 'package:crypto_ticker/Utils/firebase_collection_names.dart';
 import 'package:crypto_ticker/Widgets/show_toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -47,9 +48,13 @@ class RegistrationController extends GetxController {
       await firebaseController.firebaseFirestore
           .collection(collectionUser)
           .add({
-        'Email': emailController.text,
-        'Name': nameController.text,
-      });
+            'email': emailController.text,
+            'name': nameController.text,
+            'dateOfCreation': DateTimeUtility().getToday(),
+            'timeOfCreation': DateTimeUtility().getTimeNow(),
+          })
+          .then((value) => log('added'))
+          .catchError((error) => log(error.toString()));
       Get.toNamed(loginScreen);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
